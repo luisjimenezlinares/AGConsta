@@ -1,0 +1,1 @@
+generaciones = 4 / batch_size

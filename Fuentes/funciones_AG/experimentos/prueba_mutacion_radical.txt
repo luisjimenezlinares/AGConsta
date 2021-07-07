@@ -1,0 +1,38 @@
+50words
+0.1 fitness: 21209.0799374
+0.2 fitness: 21662.2112752
+0.3 fitness: 20506.8474569
+adiac
+0.1 fitness: 137.462157904
+0.2 fitness: 141.658737567
+0.3 fitness: 140.870237009
+cricket
+0.1 fitness: 224934.181416
+0.2 fitness: 214596.130281
+0.3 fitness: 180275.045072
+earthquakes
+0.1 fitness: 393012.376565
+0.2 fitness: 385832.214635
+0.3 fitness: 393771.885825
+gestures
+0.1 fitness: 392303.234106
+0.2 fitness: 328749.267439
+0.3 fitness: 249884.30018
+lighting
+0.1 fitness: 306326.560701
+0.2 fitness: 335398.016644
+0.3 fitness: 325607.660486
+medical_images
+0.1 fitness: 4486.60682229
+0.2 fitness: 4236.54060763
+0.3 fitness: 4065.57843206
+syntetic_control
+0.1 fitness: 14699.2934852
+0.2 fitness: 14389.2452509
+0.3 fitness: 14149.217645
+yoga
+0.1 fitness: 352508.672868
+0.2 fitness: 323992.104816
+0.3 fitness: 287021.495715
+
+

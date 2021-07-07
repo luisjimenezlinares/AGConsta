@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Cliente ag-costane</title>
+    <meta charset="utf-8">
+    <!--Fija el ancho de la página al ancho de la pantalla del dispositivo y el nivel del zoom inicial cuando se carga por primera vez-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.js"></script>
+    <link rel="stylesheet" href="bootstrap-slider.css">
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+
+
+    <style>
+      body {
+      }
+    </style>
+
+    <script>
+      var POP_SIZE = 100;
+      var GENERACION = 1;
+      var MAX_GEN = -1;
+      var SERIES = [];
+      var POBLACION_HISTORICO = [];
+      var CENTROIDE_HISTORICO = [];
+      var DATOS_HISTORICO = [];
+      var MUTACIONES_HISTORICO = [];
+      var CRUCES_HISTORICO = [];
+      var FITNESS_HISTORICO = [];
+      var HALLOFFAME = [];
+      var CENTROIDE = [];
+      var STOP = false;
+      var MAX_Y_AXIS = -1;
+      var POS_HALL = ['#primero', '#segundo', '#tercero', '#cuarto', '#quinto', '#sexto', '#septimo', '#octavo', '#noveno', '#decimo']
+      var POS_HALL_GEN = ['#primerog', '#segundog', '#tercerog', '#cuartog', '#quintog', '#sextog', '#septimog', '#octavog', '#novenog', '#decimog']
+
+
+      $(function(){
+        mostrar_mutacion([{data:[]}], true);
+        mostrar_cruce([{data:[]}], true);
+        mostrar_poblacion([{data:[]}], true);
+        mostrar_centroide([{data:[]}], true);
+        mostrar_evolucion([{data:[]}], true);
+      });
+
+
+      //Manejador de la barra de generaciones de las poblaciones
+      $(function(){
+        $("#genbar").slider();
+      });
+
+
+      function mostrar_mutacion(S, animacion) {
+        var myChart = Highcharts.chart('mutacion', {
+          title: {
+            text: '',
+            floating: true
+          },
+          legend: {
+            borderWidth: 1,
+            navigation: {
+              animation : false
+            }
+          },
+          yAxis: {
+            title: {
+              text: 'Valor'
+            },
+            softMin: 0,
+            softMax: MAX_Y_AXIS
+          },
+          xAxis: {
+            title: {
+              text: 'Tiempo'
+            }
+          },
+          plotOptions: {
+            series: {
+              allowPointSelect : false,
+              animation : animacion,
+              showInLegend : !animacion,
+            }
+          },
+          series: S
+        });
+      }
+
+
+      function mostrar_cruce(S, animacion) {
+        var myChart = Highcharts.chart('cruce', {
+          title: {
+            text: '',
+            floating: true
+          },
+          legend: {
+            borderWidth: 1
+          },
+          yAxis: {
+            title: {
+              text: 'Valor'
+            },
+            softMin: 0,
+            softMax: MAX_Y_AXIS
+          },
+          xAxis: {
+            title: {
+              text: 'Tiempo'
+            }
+          },
+          plotOptions: {
+            series: {
+              allowPointSelect : false,
+              animation : animacion,
+              showInLegend : !animacion
+            }
+          },
+          series: S
+        });
+      }
+
+
+      function mostrar_poblacion(poblacion, animacion) {
+        var myChart = Highcharts.chart('poblacion', {
+          title: {
+            text: '',
+            floating: true
+          },
+          yAxis: {
+            title: {
+              text: 'Valor'
+            },
+            softMin: 0,
+            softMax: MAX_Y_AXIS
+          },
+          xAxis: {
+            title: {
+              text: 'Tiempo'
+            }
+          },
+          plotOptions: {
+            series: {
+              allowPointSelect : false,
+              animation : animacion,
+              showInLegend : false
+            }
+          },
+          series: poblacion
+        });
+      }
+
+
+      function mostrar_centroide(S, animacion) {
+        var myChart = Highcharts.chart('centroide', {
+          title: {
+            text: '',
+            floating: true
+          },
+          yAxis: {
+            title: {
+              text: 'Valor',
+            },
+            softMin: 0,
+            softMax: MAX_Y_AXIS
+          },
+          xAxis: {
+            title: {
+              text: 'Tiempo'
+            }
+          },
+          plotOptions: {
+            series: {
+              pointStart: 0,
+              animation : animacion,
+              showInLegend : false
+            }
+          },
+          series: S
+        });
+      }
+
+
+      function mostrar_evolucion(S, animacion) {
+        var myChart = Highcharts.chart('evolucion', {
+          title: {
+            text: '',
+            floating: true
+          },
+          yAxis: {
+            title: {
+              text: 'Fitness'
+            }
+          },
+          xAxis: {
+            title: {
+              text: 'Generación'
+            }
+          },
+          plotOptions: {
+            series: {
+              pointStart: 0,
+              animation : animacion,
+              showInLegend : false
+            }
+          },
+          series: S
+        });
+      }
+
+
+      function restart(){
+        location.reload();
+      }
+
+
+      function run(){
+        POP_SIZE = parseInt($('#individuos').val());
+        MAX_GEN = parseInt($('#generaciones').val());
+
+         $('.nav-tabs a[href="#centroide"]').tab('show');
+
+        if(!STOP){
+          POP_SIZE = 30;
+          GENERACION = 1;
+          SERIES = [];
+          POBLACION_HISTORICO = [];
+          CENTROIDE_HISTORICO = [];
+          FITNESS_HISTORICO = [];
+          DATOS_HISTORICO = [];
+          MUTACIONES_HISTORICO = [];
+          CRUCES_HISTORICO = [];
+          HALLOFFAME = [];
+          CENTROIDE = [];
+          STOP = false;
+          MAX_Y_AXIS = -1;
+        }
+
+        STOP = false;
+
+        $("#generacion").text('');
+        $("#fitness_medio").text('');
+        $("#fitness_maximo").text('');
+        $("#fitness_minimo").text('');
+        $("#primero").text('');
+        $("#segundo").text('');
+        $("#tercero").text('');
+
+        mostrar_mutacion([{data:[]}], true);
+        mostrar_cruce([{data:[]}], true);
+        mostrar_poblacion([{data:[]}], true);
+        mostrar_centroide([{data:[]}], true);
+        mostrar_evolucion([{data:[]}], true);
+
+        $("#descargar").attr("disabled", true);
+
+        $("#genbar").slider({
+          id: "genbar",
+          min: 1,
+          max: GENERACION-1,
+          step: 1,
+          value: 1,
+          enabled: false,
+          formatter: function(value) {
+		          return 'Generación: ' + value;
+	           }
+        });
+
+        handleFile();
+      }
+
+      function stop(){
+        STOP = true;
+
+        //Activa el slider con el historico de poblaciones
+        $("#genbar").slider({
+          id: "genbar",
+          min: 1,
+          max: GENERACION-1,
+          step: 1,
+          value: 1,
+          enabled: true,
+          formatter: function(value) {
+		          return 'Generación: ' + value;
+	           }
+        });
+        $("#genbar").on("slide", function(slideEvt) {
+          var generacion = slideEvt.value-1;
+          mostrar_poblacion(POBLACION_HISTORICO[generacion], false);
+          mostrar_centroide(CENTROIDE_HISTORICO[generacion], false);
+          mostrar_mutacion(MUTACIONES_HISTORICO[generacion], false);
+          mostrar_cruce(CRUCES_HISTORICO[generacion], false);
+
+          $("#generacion").text(DATOS_HISTORICO[generacion]['generacion']);
+          $("#fitness_medio").text(DATOS_HISTORICO[generacion]['fitness_medio']);
+          $("#fitness_maximo").text(DATOS_HISTORICO[generacion]['fitness_maximo']);
+          $("#fitness_minimo").text(DATOS_HISTORICO[generacion]['fitness_minimo']);
+
+          for(i=0;i<POS_HALL.length;i++){
+            $(POS_HALL[i]).text(DATOS_HISTORICO[generacion]['hof'][i].fitness);
+            $(POS_HALL_GEN[i]).text(DATOS_HISTORICO[generacion]['hof'][i].generacion);
+          }
+        });
+
+        //Crea el csv para poder descargar la serie
+        var csvRows = [CENTROIDE.join(',')];
+        var csvString = csvRows.join("%0A");
+        var a = document.createElement('a');
+
+        $("#descargar").prop("href", 'data:attachment/csv,' + encodeURIComponent(csvString));
+        $("#descargar").prop("target", '_blank');
+        $("#descargar").prop("download", 'centroide.csv');
+        $("#descargar").attr("disabled", false);
+      }
+
+
+      function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+      }
+
+
+      function response_handler(){
+        if (this.readyState == 4 && this.status == 200){
+          var resp = JSON.parse(this.responseText);
+
+          fitness_act = resp.min_fitness.toFixed(2);
+
+          //muestra el centroide
+          if(HALLOFFAME.length == 0 || HALLOFFAME[0] > fitness_act){
+            var centroide = [{data:resp.mejor,
+                              marker:{enabled:false},
+                              name:"centroide",
+                              enableMouseTracking:false}];
+            mostrar_centroide(centroide, false);
+            CENTROIDE = resp.mejor;
+            CENTROIDE_HISTORICO.push(centroide);
+          }else{
+            CENTROIDE_HISTORICO.push(CENTROIDE_HISTORICO[CENTROIDE_HISTORICO.length-1]);
+          }
+
+          //muestra poblacion
+          var poblacion = [];
+          for(i=0;i<resp.population.length;i++){
+            poblacion.push({data:resp.population[i],
+                            marker:{enabled:false},
+                            enableMouseTracking:false});
+          }
+
+          mostrar_poblacion(poblacion, false);
+          POBLACION_HISTORICO.push(poblacion);
+
+          //muestra la evolución del fitness
+          FITNESS_HISTORICO.push(parseFloat(fitness_act));
+          mostrar_evolucion([{data:FITNESS_HISTORICO,
+                              marker:{enabled:false},
+                              name:'evolución',
+                              enableMouseTracking:false}], false);
+
+          //Actualiza los campos de texto de la descripción
+          $('#fitness_minimo').text(fitness_act);
+          $('#fitness_medio').text(resp.media_fitness.toFixed(2));
+          $('#fitness_maximo').text(resp.max_fitness.toFixed(2));
+          $('#generacion').text(GENERACION);
+
+          //Actualiza el hall of fame de los tres mejores individuos
+          for(i=0;i<resp.fitness.length;i++){
+            HALLOFFAME.push({fitness:parseFloat(resp.fitness[i].toFixed(2)), generacion:GENERACION});
+          }
+
+          var dups = [];
+          var aux = HALLOFFAME.filter(function(el) {
+            if (dups.indexOf(el.fitness) == -1) {
+              dups.push(el.fitness);
+              return true;
+            }
+            return false;
+          });
+          HALLOFFAME = aux;
+
+          HALLOFFAME.sort(function(a,b) {return (a.fitness > b.fitness) ? 1 : ((b.fitness > a.fitness) ? -1 : 0);} );
+
+          if(HALLOFFAME.length < 10){
+            HALLOFFAME = HALLOFFAME.slice(0,HALLOFFAME.length);
+          }
+          else{
+            HALLOFFAME = HALLOFFAME.slice(0, 10);
+          }
+
+          for(i=0;i<HALLOFFAME.length;i++){
+              $(POS_HALL[i]).text(HALLOFFAME[i].fitness);
+              $(POS_HALL_GEN[i]).text(HALLOFFAME[i].generacion);
+              $(POS_HALL[i]).attr("style", "visbility:show");
+              $(POS_HALL_GEN[i]).attr("style", "visbility:show");
+          }
+
+          DATOS_HISTORICO.push({'generacion':GENERACION,
+                                'fitness_minimo':fitness_act,
+                                'fitness_medio':resp.media_fitness.toFixed(2),
+                                'fitness_maximo':resp.max_fitness.toFixed(2),
+                                'hof':HALLOFFAME.slice()
+          });
+
+          //Actualiza el cuadro de mutaciones con un ejemplo de mutación
+          if(resp.mutantes.length > 0){
+            mutaciones = [{data:resp.mutantes[0],
+                               marker:{enabled:false},
+                               name: 'mutado',
+                               color: '#FF0000'},
+                              {data:resp.no_mutantes[0],
+                               marker:{enabled:false},
+                               name: 'no mutado',
+                               color: '#0000FF',}]
+            mostrar_mutacion(mutaciones, false);
+            MUTACIONES_HISTORICO.push(mutaciones);
+          }
+          else{
+            if(MUTACIONES_HISTORICO.length > 0){
+              MUTACIONES_HISTORICO.push(MUTACIONES_HISTORICO[MUTACIONES_HISTORICO.length-1]);
+            }
+          }
+
+          //Actualiza el cuadro de cruces con un ejemplo de cruce
+          if(resp.progenitores.length > 0){
+            cruces = [{data:resp.progenitores[0],
+                            marker:{enabled:false},
+                            name: 'progenitor-1',
+                            color: '#5bc0de',
+                            enableMouseTracking:false},
+                           {data:resp.progenitores[1],
+                            marker:{enabled:false},
+                            name: 'progenitor-2',
+                            color: '#428bca',
+                            enableMouseTracking:false},
+                           {data:resp.hijos[0],
+                            marker:{enabled:false},
+                            name:'hijo',
+                            color:'#d9534f',
+                            enableMouseTracking:false}];
+            mostrar_cruce(cruces, false);
+            CRUCES_HISTORICO.push(cruces);
+          }
+          else{
+            if(CRUCES_HISTORICO.length > 0){
+              CRUCES_HISTORICO.push(CRUCES_HISTORICO[CRUCES_HISTORICO.length-1]);
+            }
+          }
+
+          //Si es la primera generacion cambia el atributo visibility de los labels
+          if(GENERACION == 1){
+            $("#generacion").attr("style", "visbility:show");
+            $("#fitness_medio").attr("style", "visbility:show");
+            $("#fitness_maximo").attr("style", "visbility:show");
+            $("#fitness_minimo").attr("style", "visbility:show");
+            $("#primero").attr("style", "visbility:show");
+          }
+
+          GENERACION += 1;
+
+          if(!STOP && GENERACION <= MAX_GEN){
+            send_estado(resp.population);
+          }
+
+          if(GENERACION > MAX_GEN){
+            stop();
+          }
+
+        }
+      }
+
+
+      function send_estado(poblacion){
+        var cxpb = $('#probabilidad_cruce').val();
+        var mutpb = $('#probabilidad_mutacion').val();
+        //var batch_size = $('#size_subconjunto').val();
+        batch_size = 1;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = response_handler;
+        xhttp.open("POST", "http://127.0.0.1:5000/frontend", true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(JSON.stringify({'series':SERIES,
+                                   'poblacion':poblacion,
+                                   'cxpb':cxpb,
+                                   'mutpb':mutpb,
+                                   'batch_size':batch_size}));
+      }
+
+
+      function choose(choices) {
+        var index = Math.floor(Math.random() * choices.length);
+        return choices[index];
+      }
+
+
+      function init_communication(str){
+        var series = str.split("\n");
+        for(i=0;i<series.length;i++){
+          series[i] = series[i].split(",").map(parseFloat);
+          //Busca el valor máximo de las series para fijar el máximo del eje y en las figuras
+          for(j=0;j<series[i].length;j++){
+            if(series[i][j] > MAX_Y_AXIS){
+              MAX_Y_AXIS = series[i][j];
+            }
+          }
+        }
+        if(series[series.length-1] != series[0].lenght){
+          series.splice(series.length-1);
+        }
+        poblacion = []
+        for(i=0;i<POP_SIZE;i++){
+          poblacion.push(choose(series));
+        }
+
+        SERIES = series;
+        send_estado(poblacion);
+      }
+
+
+      function handleFile(){
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob){
+          alert('The File APIs are not fully supported in this browser.');
+          return;
+        }
+        input = document.getElementById('fileinput');
+        if (!input) {
+          alert("Couldn't find the fileinput element.");
+        }
+        else if (!input.files) {
+          alert("This browser doesn't seem to support the `files` property of file inputs.");
+        }
+        else if (!input.files[0]) {
+          alert("Por favor seleccione un archivo antes de pulsar 'run'.");
+        }
+        else {
+          file = input.files[0];
+          fr = new FileReader();
+          fr.onload = function(e){
+            //Comienza la comunicación con el backend
+            init_communication(e.target.result)
+          }
+          fr.readAsText(file);
+        }
+      }
+    </script>
+
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <hr style="background-color:black;height:1px"></hr>
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-8" style="text-align:center">
+                <img src="LogoPablo2.svg">
+            </div>
+          </div>
+          <!--rgb(128,0,0)-->
+          <hr style="background-color:black;height:1px"></hr>
+          <div class="row">
+            <div class="col-sm-6">
+              <div>
+                <p class="text-center h3" style="font-family:Ubuntu">Mutación</p>
+              </div>
+              <div class="row">
+                <div id="mutacion" style="height:300px">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                <p class="text-center h3" style="font-family:Ubuntu">Cruce</p>
+              </div>
+              <div class="row">
+                <div id="cruce" style="height:300px">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Generación</th>
+                <th>Fitness medio</th>
+                <th>Fitness máximo</th>
+                <th>Fitness mínimo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><label id="generacion" style="visibility:hidden">relleno</label></td>
+                <td><label id="fitness_medio" style="visibility:hidden">relleno</label></td>
+                <td><label id="fitness_maximo" style="visibility:hidden">relleno</label></td>
+                <td><label id="fitness_minimo" style="visibility:hidden">relleno</label></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Fitness</th>
+                <th>Generación</th>
+                <th>#</th>
+                <th>Fitness</th>
+                <th>Generación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><label id="primero" style="visibility:hidden">relleno</label></td>
+                <td><label id="primerog" style="visibility:hidden">relleno</label></td>
+                <td>6</td>
+                <td><label id="sexto" style="visibility:hidden">relleno</label></td>
+                <td><label id="sextog" style="visibility:hidden">relleno</label></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><label id="segundo" style="visibility:hidden">relleno</label></td>
+                <td><label id="segundog" style="visibility:hidden">relleno</label> </td>
+                <td>7</td>
+                <td><label id="septimo" style="visibility:hidden">relleno</label></td>
+                <td><label id="septimog" style="visibility:hidden">relleno</label></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><label id="tercero" style="visibility:hidden">relleno</label></td>
+                <td><label id="tercerog" style="visibility:hidden">relleno</label></td>
+                <td>8</td>
+                <td><label id="octavo" style="visibility:hidden">relleno</label></td>
+                <td><label id="octavog" style="visibility:hidden">relleno</label></td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td><label id="cuarto" style="visibility:hidden">relleno</label></td>
+                <td><label id="cuartog" style="visibility:hidden">relleno</label></td>
+                <td>9</td>
+                <td><label id="noveno" style="visibility:hidden">relleno</label></td>
+                <td><label id="novenog" style="visibility:hidden">relleno</label></td>
+              </tr>
+
+              <tr>
+                <td>5</td>
+                <td><label id="quinto" style="visibility:hidden">relleno</label></td>
+                <td><label id="quintog" style="visibility:hidden">relleno</label></td>
+                <td>10</td>
+                <td><label id="decimo" style="visibility:hidden">relleno</label></td>
+                <td><label id="decimog" style="visibility:hidden">relleno</label></td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-sm-8">
+          <div class="row">
+            <p class="text-center h3" style="font-family:Ubuntu">Población</p>
+          </div>
+          <div class="row">
+            <div id="poblacion" style="height:410px" class="row">
+            </div>
+          </div>
+
+          <div class="row" style="text-align:center">
+            <input
+              id='genbar'
+              style="width:70%;"
+            	type="text"
+            	name="genbar"
+              data-slider-id="genbar"
+            	data-slider-min="1"
+              data-slider-max="100"
+              data-slider-step="1"
+              data-slider-value="1"
+              data-slider-enabled="false">
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="row">
+            <div id="tabs" class="col-sm-12">
+              <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" href="#centroide">Centroide</a></li>
+                <li><a data-toggle="tab" href="#evolucion">Evolución</a></li>
+                <li class="active"><a data-toggle="tab" href="#parametros">Parámetros</a></li>
+              </ul>
+            </div>
+            <div class="tab-content col-sm-12">
+              <div id="centroide" style="height:285px" class="tab-pane">
+              </div>
+              <div id="evolucion" style="height:285px" class="tab-pane fade">
+              </div>
+              <div id="parametros" class="tab-pane fade in active" style="height:285px">
+                <div class="form-group row col-sm-12">
+                  <div class="form-inline row" style="padding-top:25px;padding-left:5px">
+                    <label class="col-sm-3" for="individuos:">Individuos:</label>
+                    <input type="text" class="form-control col-sm-6" id="individuos" style="width:15%;">
+                  </div>
+
+                  <div class="form-inline row" style="padding-top:10px;padding-left:5px">
+                    <label class="col-sm-3" for="generaciones:">Generaciones:</label>
+                    <input type="text" class="form-control col-sm-6" id="generaciones" style="width:15%;">
+                  </div>
+
+                  <div class="form-inline row" style="padding-top:10px;padding-left:5px">
+                    <label class="col-sm-3" for="probabilidad_cruce:">Prob. cruce:</label>
+                    <input type="text" class="form-control col-sm-6" id="probabilidad_cruce" style="width:15%;">
+                  </div>
+
+                  <div class="form-inline row" style="padding-top:10px;padding-left:5px">
+                    <label class="col-sm-3" for="probabilidad_mutacion:">Prob. mutación:</label>
+                    <input type="text" class="form-control col-sm-6" id="probabilidad_mutacion" style="width:15%;">
+                  </div>
+                  <!--<div class="form-inline row" style="padding-top:10px;padding-left:5px">
+                    <label class="col-sm-3" for="size_subconjunto:">Proporción evaluación:</label>
+                    <input type="text" class="form-control col-sm-6" id="size_subconjunto" style="width:15%;">
+                  </div>-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin:auto">
+            <span class="btn btn-default btn-file">
+              <input id="fileinput" type="file">
+            </span>
+            <a id="descargar" href="javascript:void(0)" class="btn btn-default btn-lg" role="button" style="margin:20px" disabled="true">descargar centroide</a>
+          </div>
+          <div class="col-sm-6">
+            <div class="input-group row" style="margin:auto">
+              <button id="restart" type="button" onclick="restart()" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-repeat"></span></button>
+
+              <button id="run" type="button" onclick="run()" class="btn btn-success btn-lg" style="margin:20px"><span class="glyphicon glyphicon-play"></span></button>
+
+              <button id="stop" type="button" onclick="stop()" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-stop"></span></button>
+            </div>
+          </div>
+          <div class="col-sm-6" style="text-align:center">
+              <img src="esi.svg" style="width:152px;height:114px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

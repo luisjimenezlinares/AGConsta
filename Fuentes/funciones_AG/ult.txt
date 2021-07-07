@@ -1,0 +1,8 @@
+PhalangesOutlinesCorrect_0.05
+PhalangesOutlinesCorrect_0.1
+PhalangesOutlinesCorrect_0.25
+PhalangesOutlinesCorrect_0.5
+PhalangesOutlinesCorrect_0.75
+PhalangesOutlinesCorrect_1
+uWaveGestureLibrary_Z_0.05
+uWaveGestureLibrary_Z_0.1

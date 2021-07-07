@@ -1,0 +1,159 @@
+Sun Apr  9 20:50:30 2017    restats
+
+         1313261090 function calls (1275000988 primitive calls) in 584.660 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   272780  266.607    0.001  511.858    0.002 fastdtw.py:90(dtw)
+157121280  118.053    0.000  159.396    0.000 {min}
+471363840   41.343    0.000   41.343    0.000 fastdtw.py:128(<lambda>)
+157121280   39.362    0.000   50.637    0.000 fastdtw.py:90(<lambda>)
+157394060   30.289    0.000   30.289    0.000 fastdtw.py:122(<genexpr>)
+11808492/478308   21.101    0.000   53.832    0.000 copy.py:226(_deepcopy_list)
+26921745/5199   19.160    0.000   55.326    0.011 copy.py:145(deepcopy)
+157121280   11.275    0.000   11.275    0.000 {abs}
+ 11964462    5.210    0.000    6.508    0.000 copy.py:267(_keep_alive)
+     1432    5.201    0.004  251.363    0.176 DBA.py:20(g)
+     1533    4.271    0.003  273.775    0.179 fitness.py:8(fitness)
+ 13093440    4.170    0.000    4.170    0.000 fastdtw.py:123(<lambda>)
+     2966    4.091    0.001    4.099    0.001 DBA.py:7(f)
+ 51664281    3.943    0.000    3.943    0.000 {method 'append' of 'list' objects}
+ 38891712    3.851    0.000    3.851    0.000 {method 'get' of 'dict' objects}
+ 50715495    2.681    0.000    2.681    0.000 {id}
+        1    0.685    0.685  583.672  583.672 ag_comasa.py:37(ag)
+   131795    0.682    0.000    1.125    0.000 {zip}
+  4411633    0.510    0.000    0.510    0.000 fastdtw.py:135(<genexpr>)
+     9200    0.349    0.000    0.748    0.000 generate.py:6(generate)
+     5199    0.266    0.000   55.245    0.011 copy.py:306(_reconstruct)
+   299575    0.262    0.000    0.278    0.000 random.py:175(randrange)
+       50    0.213    0.004   53.376    1.068 ag_comasa.py:19(varAnd)
+       51    0.200    0.004    0.224    0.004 support.py:198(compile)
+     2618    0.159    0.000    0.159    0.000 {operator.eq}
+1274607/1270735    0.109    0.000    0.110    0.000 {len}
+   299575    0.093    0.000    0.371    0.000 random.py:238(randint)
+   160961    0.078    0.000    0.078    0.000 {range}
+     5199    0.043    0.000    0.043    0.000 {method '__reduce_ex__' of 'object' objects}
+   272780    0.028    0.000    0.028    0.000 {method 'reverse' of 'list' objects}
+    50000    0.026    0.000    0.031    0.000 random.py:273(choice)
+       51    0.025    0.000    2.402    0.047 support.py:511(update)
+   450639    0.024    0.000    0.024    0.000 {method 'random' of '_random.Random' objects}
+     5364    0.024    0.000    0.045    0.000 {max}
+      529    0.019    0.000    0.022    0.000 crossover.py:6(crossover)
+        1    0.019    0.019  584.660  584.660 <string>:1(<module>)
+     5199    0.019    0.000    0.056    0.000 copy.py:234(_deepcopy_tuple)
+    50100    0.015    0.000    0.026    0.000 base.py:227(__gt__)
+     5000    0.014    0.000    0.045    0.000 selection.py:11(selRandom)
+5399/5299    0.014    0.000    0.797    0.000 creator.py:143(initType)
+   135174    0.013    0.000    0.013    0.000 copy.py:198(_deepcopy_atomic)
+    50100    0.011    0.000    0.011    0.000 base.py:233(__le__)
+    21841    0.011    0.000    0.027    0.000 {isinstance}
+     5199    0.011    0.000    0.052    0.000 base.py:245(__deepcopy__)
+    20902    0.011    0.000    0.011    0.000 {getattr}
+     5199    0.010    0.000    0.098    0.000 copy.py:253(_deepcopy_dict)
+      488    0.009    0.000    0.013    0.000 mutation.py:6(mutation)
+     5299    0.009    0.000    0.016    0.000 abc.py:128(__instancecheck__)
+      199    0.008    0.000    2.208    0.011 support.py:539(insert)
+     5299    0.007    0.000    0.029    0.000 base.py:167(__init__)
+     5300    0.006    0.000    0.006    0.000 _weakrefset.py:70(__contains__)
+ 9401/101    0.005    0.000    0.756    0.007 init.py:23(<genexpr>)
+      260    0.005    0.000    0.005    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+    10607    0.005    0.000    0.005    0.000 {issubclass}
+     1432    0.005    0.000  253.316    0.177 DBA.py:29(DBA)
+       50    0.005    0.000    0.096    0.002 selection.py:48(selTournament)
+     5375    0.004    0.000    0.004    0.000 {hasattr}
+      160    0.003    0.000    0.003    0.000 {numpy.core.multiarray.array}
+     5199    0.003    0.000    0.005    0.000 copy_reg.py:92(__newobj__)
+     6633    0.003    0.000    0.003    0.000 {map}
+     5100    0.003    0.000    0.006    0.000 base.py:179(getValues)
+     5208    0.003    0.000    0.003    0.000 {method 'update' of 'dict' objects}
+     5100    0.003    0.000    0.009    0.000 ag_comasa.py:122(<lambda>)
+     5100    0.002    0.000    0.003    0.000 base.py:219(valid)
+     5151    0.002    0.000    0.011    0.000 support.py:204(<genexpr>)
+       52    0.002    0.000    0.006    0.000 _methods.py:86(_var)
+    10651    0.002    0.000    0.002    0.000 {method 'iteritems' of 'dict' objects}
+     5199    0.001    0.000    0.001    0.000 {built-in method __new__ of type object at 0x7ffb8473d4c0}
+       51    0.001    0.000    0.003    0.000 support.py:423(__txt__)
+     1532    0.001    0.000    0.002    0.000 base.py:182(setValues)
+     3872    0.001    0.000    0.001    0.000 support.py:569(__len__)
+     2071    0.001    0.000    0.001    0.000 support.py:575(__iter__)
+     5101    0.001    0.000    0.001    0.000 support.py:572(__getitem__)
+       51    0.001    0.000    0.007    0.000 fromnumeric.py:2892(std)
+      358    0.001    0.000    0.001    0.000 {method 'format' of 'str' objects}
+       10    0.001    0.000    0.001    0.000 base.py:47(register)
+      357    0.001    0.000    0.001    0.000 support.py:474(<genexpr>)
+      199    0.000    0.000    0.001    0.000 {_bisect.bisect_right}
+      103    0.000    0.000    0.001    0.000 _methods.py:43(_count_reduce_items)
+     1546    0.000    0.000    0.000    0.000 base.py:193(delValues)
+      196    0.000    0.000    0.001    0.000 support.py:556(remove)
+       51    0.000    0.000    0.002    0.000 _methods.py:53(_mean)
+     2071    0.000    0.000    0.000    0.000 {iter}
+       51    0.000    0.000    0.002    0.000 fromnumeric.py:2154(amax)
+       51    0.000    0.000    0.007    0.000 _methods.py:133(_std)
+      325    0.000    0.000    0.000    0.000 base.py:236(__lt__)
+    101/1    0.000    0.000    0.756    0.756 init.py:3(initRepeat)
+       51    0.000    0.000    0.002    0.000 fromnumeric.py:2786(mean)
+      104    0.000    0.000    0.001    0.000 {method 'join' of 'str' objects}
+       51    0.000    0.000    0.000    0.000 support.py:332(record)
+      157    0.000    0.000    0.004    0.000 numeric.py:534(asanyarray)
+       51    0.000    0.000    0.002    0.000 fromnumeric.py:2255(amin)
+       51    0.000    0.000    0.003    0.000 support.py:479(__str__)
+      398    0.000    0.000    0.000    0.000 {method 'insert' of 'list' objects}
+       51    0.000    0.000    0.003    0.000 support.py:377(stream)
+      379    0.000    0.000    0.000    0.000 {method 'pop' of 'list' objects}
+      102    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000  584.640  584.640 ag_comasa.py:101(ag_comasa)
+      110    0.000    0.000    0.000    0.000 {setattr}
+        2    0.000    0.000    0.000    0.000 creator.py:93(create)
+       51    0.000    0.000    0.002    0.000 _methods.py:25(_amax)
+       51    0.000    0.000    0.002    0.000 _methods.py:28(_amin)
+        2    0.000    0.000    0.000    0.000 validation.py:272(check_array)
+        1    0.000    0.000    0.000    0.000 extmath.py:752(_incremental_mean_and_var)
+        1    0.000    0.000    0.000    0.000 data.py:633(transform)
+        2    0.000    0.000    0.000    0.000 validation.py:49(_assert_all_finite)
+        1    0.000    0.000    0.001    0.001 ag_comasa.py:86(register_toolbox)
+        1    0.000    0.000    0.000    0.000 abc.py:148(__subclasscheck__)
+        4    0.000    0.000    0.000    0.000 _weakrefset.py:58(__iter__)
+        6    0.000    0.000    0.000    0.000 {method 'expandtabs' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 data.py:562(partial_fit)
+        3    0.000    0.000    0.000    0.000 {method 'sum' of 'numpy.ndarray' objects}
+        2    0.000    0.000    0.000    0.000 fromnumeric.py:55(_wrapfunc)
+        1    0.000    0.000    0.000    0.000 data.py:62(_handle_zeros_in_scale)
+        4    0.000    0.000    0.000    0.000 support.py:183(register)
+        1    0.000    0.000    0.000    0.000 fromnumeric.py:42(_wrapit)
+        6    0.000    0.000    0.000    0.000 validation.py:159(<genexpr>)
+        2    0.000    0.000    0.000    0.000 validation.py:132(_shape_repr)
+        2    0.000    0.000    0.000    0.000 validation.py:111(_num_samples)
+       12    0.000    0.000    0.000    0.000 support.py:468(<genexpr>)
+        1    0.000    0.000    0.000    0.000 copy_reg.py:95(_slotnames)
+        1    0.000    0.000    0.000    0.000 {method 'var' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 support.py:272(__init__)
+        1    0.000    0.000    0.000    0.000 numeric.py:2160(isscalar)
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:20(__enter__)
+        2    0.000    0.000    0.000    0.000 fromnumeric.py:504(transpose)
+        1    0.000    0.000    0.000    0.000 validation.py:651(check_is_fitted)
+        1    0.000    0.000    0.000    0.000 numeric.py:463(asarray)
+        9    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 _methods.py:31(_sum)
+        4    0.000    0.000    0.000    0.000 base.py:1081(isspmatrix)
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:36(__init__)
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:26(__exit__)
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:83(add)
+        1    0.000    0.000    0.000    0.000 base.py:470(fit_transform)
+        1    0.000    0.000    0.000    0.000 base.py:43(__init__)
+        1    0.000    0.000    0.000    0.000 data.py:546(fit)
+        1    0.000    0.000    0.000    0.000 support.py:505(__init__)
+        2    0.000    0.000    0.000    0.000 {method 'transpose' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.000    0.000 data.py:532(_reset)
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'dictproxy' objects}
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:52(_commit_removals)
+        1    0.000    0.000    0.000    0.000 _weakrefset.py:16(__init__)
+        1    0.000    0.000    0.000    0.000 data.py:521(__init__)
+        1    0.000    0.000    0.000    0.000 support.py:178(__init__)
+        1    0.000    0.000    0.000    0.000 _abcoll.py:98(__subclasshook__)
+        1    0.000    0.000    0.000    0.000 {method 'copy' of 'numpy.ndarray' objects}
+        2    0.000    0.000    0.000    0.000 {globals}
+        1    0.000    0.000    0.000    0.000 {all}
+        1    0.000    0.000    0.000    0.000 {method 'remove' of 'set' objects}
+        2    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
